@@ -14,8 +14,6 @@ function Promt({
   onPromptComplete,
   setInitialFiles,
   setIsSidebarOpen,
-  chatLoading,
-  setChatLoading,
   codeLoading,
   setMode,
   mode,
@@ -27,6 +25,7 @@ function Promt({
   const navigate = useNavigate();
   const { chatId: paramChatId } = useParams();
   const [chatId, setChatId] = useState(paramChatId || null);
+   const [chatLoading, setChatLoading] = useState(false);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -217,28 +216,11 @@ function Promt({
     }
   };
 
-  if (chatLoading)
+  if (!chatLoading)
     return (
-      <div
-        className={`flex ${
-          promt.length === 0 ? "" : " w-full md:w-[80%] mx-auto lg:w-120"
-        } h-full flex-col gap-3 pt-5 p-2`}
-      >
-        <div className="flex justify-end ">
-          <div className="skeleton h-13.5 w-[50%] bg-white/20"></div>
-        </div>
-        <div className="skeleton h-30 w-[80%] bg-white/20"></div>
-        <div className="flex justify-end">
-          <div className="skeleton h-20 w-[40%] bg-white/20"></div>
-        </div>
-        <div className="skeleton h-25 w-[70%] bg-white/20"></div>
-        <div className="flex justify-end">
-          <div className="skeleton h-20 w-[60%] bg-white/20"></div>
-        </div>
-        <div className="skeleton h-18 w-[70%] bg-white/20"></div>
-        <div className="flex justify-center mt-3">
-          <div className="skeleton h-30 w-[100%] bg-white/20"></div>
-        </div>
+      <div className="flex flex-col justify-center items-center gap-1 w-full">
+        <span className="loading loading-bars loading-xl"></span>
+        <span className="font-bold text-2xl animate-pulse">Loading...</span>
       </div>
     );
 

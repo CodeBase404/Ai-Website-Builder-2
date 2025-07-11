@@ -23,7 +23,6 @@ function Home() {
   const [initialFiles, setInitialFiles] = useState({});
   const [sandboxFiles, setSandboxFiles] = useState({});
   const [promt, setPromt] = useState([]);
-  const [chatLoading, setChatLoading] = useState(false);
   const [codeLoading, setCodeLoading] = useState(false);
   const [mode, setMode] = useState("website");
 
@@ -137,8 +136,6 @@ function Home() {
                 setLastChatId(chatId);
               }}
               setIsSidebarOpen={setIsSidebarOpen}
-              chatLoading={chatLoading}
-              setChatLoading={setChatLoading}
               codeLoading={codeLoading}
               setMode={setMode}
               mode={mode}
@@ -160,7 +157,6 @@ function Home() {
               initialFiles={initialFiles}
               setSandboxFiles={setSandboxFiles}
               sandboxFiles={sandboxFiles}
-              chatLoading={chatLoading}
               setPromt={setPromt}
               setCodeLoading={setCodeLoading}
               mode={mode}

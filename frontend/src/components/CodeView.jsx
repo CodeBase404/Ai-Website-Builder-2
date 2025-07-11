@@ -30,7 +30,6 @@ function CodeView({
   initialFiles = {},
   sandboxFiles,
   setSandboxFiles,
-  chatLoading,
   setPromt,
   setCodeLoading,
   mode,
@@ -245,12 +244,6 @@ function CodeView({
       setDeploying(false);
     }
   };
-
-  if (chatLoading) {
-    return (
-      <div className="w-full skeleton h-[100%] rounded-2xl bg-white/10"></div>
-    );
-  }
 
   return (
     <div>
