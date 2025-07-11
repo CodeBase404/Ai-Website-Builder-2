@@ -8,7 +8,6 @@ import {
 import {
   Code,
   Eye,
-  File,
   FolderDown,
   Loader2,
   Moon,
@@ -17,11 +16,9 @@ import {
   Zap,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import LookUp from "../utils/LookUp";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import SandpackSync from "./SandpackSync ";
-import isEqual from "lodash.isequal";
 import axiosClient from "../utils/axiosClient";
 
 function CodeView({
@@ -36,8 +33,6 @@ function CodeView({
 }) {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("code");
-  const [showPreviewMsg, setShowPreviewMsg] = useState(false);
-  const [previewCountdown, setPreviewCountdown] = useState(1);
   const [deploying, setDeploying] = useState(false);
   const [istheme, setTheme] = useState(true);
   const [previewDevice, setPreviewDevice] = useState("desktop");
@@ -182,32 +177,6 @@ function CodeView({
     return () => clearTimeout(timeout);
   }, [prompt]);
 
-  useEffect(() => {
-    if (activeTab === "preview") {
-      setShowPreviewMsg(true);
-      setPreviewCountdown(1);
-
-      const timer = setTimeout(() => {
-        setShowPreviewMsg(false);
-      }, 1000);
-
-      const countdownInterval = setInterval(() => {
-        setPreviewCountdown((prev) => {
-          if (prev <= 1) {
-            clearInterval(countdownInterval);
-            setShowPreviewMsg(false);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-      return () => {
-        clearTimeout(timer);
-        clearInterval(countdownInterval);
-      };
-    }
-  }, [activeTab]);
-
   const handleDownloadAll = () => {
     const zip = new JSZip();
 
@@ -329,11 +298,6 @@ function CodeView({
           showConsoleButton: true,
           externalResources: ["https://cdn.tailwindcss.com"],
         }}
-        customSetup={{
-          dependencies: {
-            ...LookUp?.Dependencies,
-          },
-        }}
       >
         <SandpackSync activeTab={activeTab} />
 
@@ -357,9 +321,9 @@ function CodeView({
               <div className="absolute bottom-1 right-55 z-2 flex gap-1 text-sm text-yellow-400">
                 ⚠️{" "}
                 <span>
-                  Preview not loading? go to <span className="font-semibold">Code</span>{" "} tab see bottom right click on {" "}
-              tab →{" "}
-                  <span className="underline">Run</span>.
+                  Preview not loading? go to{" "}
+                  <span className="font-semibold">Code</span> tab see bottom
+                  right click on tab → <span className="underline">Run</span>.
                 </span>
               </div>
 
@@ -393,24 +357,15 @@ function CodeView({
                   <div>Your preview will appear here</div>
                 </div>
               ) : (
-                <>
-                  {showPreviewMsg && (
-                    <div className="absolute inset-0 bg-black z-10 flex items-center justify-center text-yellow-400 text-lg font-semibold animate-fade">
-                      ⏳ Building preview, please wait... {previewCountdown}s
-                    </div>
-                  )}
-
-                  {/* Preview Iframe with size class */}
-                  <div
-                    className={`mx-auto bg-white shadow-md rounded-md overflow-hidden ${
-                      previewDevice === "mobile"
-                        ? "w-[375px] h-[667px]" // iPhone X
-                        : "w-full h-full"
-                    }`}
-                  >
-                    <SandpackPreview className="h-full w-full" showNavigator />
-                  </div>
-                </>
+                <div
+                  className={`mx-auto bg-white shadow-md rounded-md overflow-hidden ${
+                    previewDevice === "mobile"
+                      ? "w-[375px] h-[667px]" // iPhone X
+                      : "w-full h-full"
+                  }`}
+                >
+                  <SandpackPreview className="h-full w-full" showNavigator />
+                </div>
               )}
             </div>
           )}

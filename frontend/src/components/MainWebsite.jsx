@@ -17,21 +17,21 @@ const MainWebsite = () => {
     <div className="min-h-screen relative z-40 bg-transparent animate-fade-in">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-40 bg-white/10 backdrop-blur-lg lg:backdrop-blur-none lg:bg-transparent">
-        <div className="container mx-auto px-6 py-3">
+        <div className="lg:container mx-auto px-3 md:px-6 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="bg-gradient-to-r from-purple-500 to-rose-500 p-2 rounded-lg">
-                <Zap className="w-6 h-6 text-white" />
+            <div className="flex items-center space-x-1.5 md:space-x-3">
+              <div className="bg-gradient-to-r to-rose-400 shadow shadow-white/30 p-2 rounded-lg backdrop-blur-3xl">
+                <Zap className="w-4 h-4 md:w-6 md:h-6 text-white" />
               </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                 Webify
               </h1>
             </div>
            <div className='space-x-2'>
-            <NavLink to="/chat" className="bg-gradient-to-r from-rose-500 via-white/10 shadow shadow-white text-white px-6 py-2 rounded-full hover:scale-105 transition-transform">
+            <NavLink to="/chat" className="bg-gradient-to-r from-rose-500 via-white/10 shadow shadow-white/30 text-white text-xs md:text-sm px-3 py-2  md:px-6 md:py-2 rounded-full hover:scale-105 transition-transform">
                  Ai Website Builder
             </NavLink>
-            <span className="bg-gradient-to-r from-purple-500 via-white/10 shadow shadow-white text-white px-6 py-2 rounded-full hover:scale-105 transition-transform">
+            <span className="bg-gradient-to-r from-purple-500 via-white/10 shadow shadow-white/30 text-white text-xs md:text-sm px-3 py-2 md:px-6 md:py-2 rounded-full hover:scale-105 transition-transform">
                  {firstName ? firstName : "My Profile"}
             </span>
             </div>
@@ -54,7 +54,7 @@ const MainWebsite = () => {
               We craft digital solutions that make your brand shine.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <NavLink to="/chat" className="bg-gradient-to-r from-purple-500 to-rose-500 text-white px-8 py-4 rounded-full hover:scale-105 transition-transform flex items-center justify-center space-x-2 group">
+              <NavLink to="/chat" className="bg-gradient-to-r from-green-300/40 shadow shadow-white/20  text-white px-8 py-4 rounded-full hover:scale-105 transition-transform flex items-center justify-center space-x-2 group">
                 <span>Start Your Project</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </NavLink>
@@ -90,9 +90,9 @@ const MainWebsite = () => {
             ].map((service, index) => (
               <div
                 key={index}
-                className="p-8 rounded-2xl border border-gray-700 hover:border-blue-500/50 transition-all duration-300 hover:scale-105 group"
+                className="p-8 rounded-2xl shadow-md hover:shadow-blue-500/30 border border-gray-700 hover:border-blue-500/50 transition-all duration-300 hover:scale-105 group"
               >
-                <div className="bg-gradient-to-r from-purple-500 to-rose-500 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="bg-gradient-to-r from-sky-300/40 shadow shadow-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform text-white">
                   {service.icon}
                 </div>
                 <h4 className="text-xl font-semibold text-white mb-4">{service.title}</h4>
@@ -113,8 +113,8 @@ const MainWebsite = () => {
               { icon: <Star className="w-8 h-8" />, number: "5.0", label: "Average Rating" },
               { icon: <Zap className="w-8 h-8" />, number: "24/7", label: "Support Available" }
             ].map((stat, index) => (
-              <div key={index} className="text-center group">
-                <div className=" bg-gradient-to-r from-purple-500 to-rose-500 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+              <div key={index} className="text-center group border p-2 rounded-2xl shadow-lg shadow-white/20">
+                <div className=" bg-gradient-to-r to-black/20 shadow shadow-sky-500/20 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform text-white">
                   {stat.icon}
                 </div>
                 <div className="text-3xl font-bold text-white mb-2">{stat.number}</div>
@@ -129,10 +129,10 @@ const MainWebsite = () => {
       <footer className="py-12 px-6 border-t border-gray-800">
         <div className="container mx-auto text-center">
           <div className="flex items-center justify-center space-x-3 mb-6">
-            <div className="bg-gradient-to-r from-purple-500 to-rose-500 p-2 rounded-lg">
-              <Zap className="w-6 h-6 text-white" />
+            <div className="bg-gradient-to-r to-rose-400 shadow-md shadow-white/30 p-2 rounded-2xl">
+              <Zap className="w-16 h-16 text-white" />
             </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-400 bg-clip-text text-transparent">
+            <h1 className="text-5xl pb-2 font-bold bg-gradient-to-r from-blue-400 to-blue-400 bg-clip-text text-transparent">
               Webify
             </h1>
           </div>
