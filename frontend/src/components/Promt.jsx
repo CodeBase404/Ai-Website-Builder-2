@@ -216,7 +216,7 @@ function Promt({
     }
   };
 
-  if (!chatLoading)
+  if (chatLoading)
     return (
       <div className="flex flex-col justify-center items-center gap-1 w-full">
         <span className="loading loading-bars loading-xl"></span>
