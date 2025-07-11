@@ -14,6 +14,7 @@ function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+
   const handleLoadingComplete = () => {
     setLoading(false);
   };
@@ -25,7 +26,7 @@ function App() {
   return (
     <div className="bg-gray-950 relative  min-h-[100vh] overflow-hidden w-full">
       {loading && <LoadingScreen onComplete={handleLoadingComplete} />}
-      <img src={logo} alt="" className="absolute z-0 inset-0 h-full" />
+      <img src={logo} alt="" className="absolute z-0 inset-0" />
       <Toaster position="top-center" />
       <Routes>
         <Route
