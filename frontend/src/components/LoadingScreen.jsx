@@ -12,7 +12,7 @@ const LoadingScreen = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-gradient-to-br from-black via-black to-black flex items-center justify-center z-50">
       {/* Background animated particles */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
@@ -31,7 +31,7 @@ const LoadingScreen = ({ onComplete }) => {
 
       <div className="text-center z-10">
         <div className="relative mb-8">
-          <div className="absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-30 animate-pulse scale-150"></div>
+          <div className="absolute inset-0 bg-rose-500 rounded-full blur-xl opacity-30 animate-pulse scale-150"></div>
           <div className="relative bg-gradient-to-r from-blue-400 to-purple-400 p-6 rounded-full inline-block animate-bounce">
             <Zap className="w-12 h-12 text-white" />
           </div>
@@ -47,7 +47,7 @@ const LoadingScreen = ({ onComplete }) => {
         </h1>
 
         <div className="w-64 h-1 bg-gray-800 rounded-full overflow-hidden mx-auto mb-4">
-          <div className="h-full bg-gradient-to-r from-blue-400 to-purple-400 rounded-full animate-loading-bar"></div>
+          <div className="h-full bg-gradient-to-r from-green-400 to-purple-400 rounded-full animate-loading-bar"></div>
         </div>
 
         <p className="text-blue-200 text-lg animate-pulse">

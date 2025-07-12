@@ -20,6 +20,7 @@ import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import SandpackSync from "./SandpackSync ";
 import axiosClient from "../utils/axiosClient";
+import LookUp from "../utils/LookUp";
 
 function CodeView({
   prompt,
@@ -107,7 +108,6 @@ function CodeView({
 
                 const isPackageJson = path === "/package.json";
 
-                // 🧠 Simulate streaming character-by-character
                 if (!isPackageJson) {
                   let streamedContent = "";
                   for (let i = 0; i < content.length; i += 10) {
@@ -119,20 +119,18 @@ function CodeView({
                     await new Promise((r) => setTimeout(r, 25));
                   }
                 } else {
-                  // ⛔ Don’t stream package.json — set it once
                   setSandboxFiles((prev) => ({
                     ...prev,
                     [path]: { code: content },
                   }));
                 }
 
-                // ✅ Done message
                 setPromt((prev) => [
                   ...prev.slice(0, -1),
                   {
                     ...prev[prev.length - 1],
                     content:
-                      prev[prev.length - 1].content + `\n✅ ${path} completed!`,
+                      prev[prev.length - 1].content + `\n✅ ${path}`,
                   },
                 ]);
               }
@@ -297,6 +295,11 @@ function CodeView({
           showConsole: true,
           showConsoleButton: true,
           externalResources: ["https://cdn.tailwindcss.com"],
+        }}
+         customSetup={{
+          dependencies: {
+            ...LookUp?.Dependencies,
+          },
         }}
       >
         <SandpackSync activeTab={activeTab} />

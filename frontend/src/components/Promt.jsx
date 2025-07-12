@@ -25,7 +25,7 @@ function Promt({
   const navigate = useNavigate();
   const { chatId: paramChatId } = useParams();
   const [chatId, setChatId] = useState(paramChatId || null);
-   const [chatLoading, setChatLoading] = useState(false);
+  const [chatLoading, setChatLoading] = useState(false);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -149,7 +149,6 @@ function Promt({
       const decoder = new TextDecoder("utf-8");
       let accumulated = "";
 
-      // ✅ Fix: use buffer + flush to avoid too many setPromt calls
       let buffer = "";
       let flushTimeout = null;
 
@@ -158,11 +157,17 @@ function Promt({
         setPromt((prev) => {
           const updated = [...prev];
           const last = updated[updated.length - 1];
+
           if (last.role === "model") {
-            last.content += buffer;
+            updated[updated.length - 1] = {
+              ...last,
+              content: last.content + buffer, 
+            };
           }
-          return [...updated.slice(0, -1), last];
+
+          return updated;
         });
+
         buffer = "";
       };
 

@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router";
+import { Routes, Route, Navigate, useLocation } from "react-router";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -13,11 +13,14 @@ import MainWebsite from "./components/MainWebsite";
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
+  const [loadingSc, setLoadingSc] = useState(true);
+  const location = useLocation();
 
   const handleLoadingComplete = () => {
-    setLoading(false);
+    setLoadingSc(false);
   };
+
+  const showLoadingScreen = ["/", "/login"].includes(location.pathname);
 
   useEffect(() => {
     dispatch(checkAuth());
@@ -25,8 +28,10 @@ function App() {
 
   return (
     <div className="bg-gray-950 relative  min-h-[100vh] overflow-hidden w-full">
-      {loading && <LoadingScreen onComplete={handleLoadingComplete} />}
-      <img src={logo} alt="" className="absolute z-0 inset-0" />
+      {showLoadingScreen && loadingSc && (
+        <LoadingScreen onComplete={handleLoadingComplete} />
+      )}
+      <img src={logo} alt="" className="absolute z-0 inset-0 h-full" />
       <Toaster position="top-center" />
       <Routes>
         <Route
