@@ -13,24 +13,45 @@ import { NavLink, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { logoutUser } from "../features/auth/authThunks";
+import {
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  animate,
+  easeInOut,
+} from "motion/react";
 
 const MainWebsite = () => {
+  const [firstName, setFirstName] = useState("");
   const { loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const Colors = [  "#CE84CF","#e073c5","#DD335C", "#ff5e57", "#1E67C6",];
+  const color = useMotionValue(Colors[0]);
 
-  const [firstName, setFirstName] = useState("");
+  useEffect(() => {
+    animate(color, Colors, {
+      ease: easeInOut,
+      duration: 10,
+      repeat: Infinity,
+      repeatType: "mirror",
+    });
+  }, []);
+
+  const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%,#020617 50%, ${color})`;
+  const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;
+
   useEffect(() => {
     const persistedAuth = localStorage.getItem("persist:auth");
     if (persistedAuth) {
       const parsedAuth = JSON.parse(persistedAuth);
       const user = JSON.parse(parsedAuth.user);
-      setFirstName(user.firstName); 
+      setFirstName(user.firstName);
     }
   }, []);
 
   const handleLogout = async () => {
-    if (loading) return; 
+    if (loading) return;
 
     try {
       await dispatch(logoutUser()).unwrap();
@@ -42,7 +63,11 @@ const MainWebsite = () => {
   };
 
   return (
-    <div className="min-h-screen relative z-40 bg-transparent animate-fade-in">
+    <motion.div className="min-h-screen relative z-40 bg-transparent animate-fade-in">
+      <motion.div
+  style={{ backgroundImage }}
+  className="fixed top-0 left-0 w-full h-full -z-10"
+/>
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-40 bg-white/10 backdrop-blur-lg lg:backdrop-blur-none lg:bg-transparent">
         <div className="lg:container mx-auto px-3 md:px-6 py-3">
@@ -58,20 +83,20 @@ const MainWebsite = () => {
             <div className="space-x-2">
               <NavLink
                 to="/chat"
-                className="bg-gradient-to-r from-rose-500 via-white/10 shadow shadow-white/30 text-white text-xs md:text-sm px-3 py-2  md:px-6 md:py-2 rounded-full hover:scale-105 transition-transform"
+                className="btn btn-dash btn-info hover:text-white  hover:scale-105 transition-transform"
               >
                 Ai Website Builder
               </NavLink>
               <span
                 onClick={handleLogout}
                 disabled={loading}
-                className={`bg-gradient-to-r from-purple-500 via-white/10 cursor-pointer shadow shadow-white/30 text-white text-xs md:text-sm px-3 py-2 md:px-6 md:py-2 rounded-full hover:scale-105 transition-transform  ${
+                className={`btn btn-dash btn-error cursor-pointer  text-white transition-transform  ${
                   loading
                     ? "opacity-50 cursor-not-allowed"
-                    : "hover:shadow shadow-white"
+                    : ""
                 }`}
               >
-                 {loading ? "Logging out..." : "Log out"}
+                {loading ? "Logging out..." : "Log out"}
               </span>
             </div>
           </div>
@@ -93,14 +118,14 @@ const MainWebsite = () => {
               captivate, engage, and convert. We craft digital solutions that
               make your brand shine.
             </p>
-            
-               <span className="block bg-gradient-to-r from-yellow-500 to-green-500 via-blue-400/80 text-3xl bg-clip-text text-transparent animate-gradient pb-4 ">
-                Welcome {firstName}
-              </span>
+
+            <span className="block bg-gradient-to-r from-yellow-500 to-green-500 via-blue-400/80 text-3xl bg-clip-text text-transparent animate-gradient pb-4 ">
+              Welcome {firstName}
+            </span>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <NavLink
                 to="/chat"
-                className="bg-gradient-to-r from-green-300/40 shadow shadow-white/20  text-white px-8 py-4 rounded-full hover:scale-105 transition-transform flex items-center justify-center space-x-2 group"
+                className="btn btn-dash btn-ghost hover:text-black border border-white text-white px-8 py-4 rounded-full hover:scale-105 transition-transform flex items-center justify-center space-x-2 group"
               >
                 <span>Start Your Project</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -139,7 +164,7 @@ const MainWebsite = () => {
             ].map((service, index) => (
               <div
                 key={index}
-                className="p-8 rounded-2xl shadow-md hover:shadow-blue-500/30 border border-gray-700 hover:border-blue-500/50 transition-all duration-300 hover:scale-105 group"
+                className="p-8 rounded-2xl shadow-md hover:shadow-blue-500/30 border border-white/10 hover:border-blue-500/50 transition-all duration-300 hover:scale-105 group"
               >
                 <div className="bg-gradient-to-r from-sky-300/40 shadow shadow-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform text-white">
                   {service.icon}
@@ -184,7 +209,7 @@ const MainWebsite = () => {
             ].map((stat, index) => (
               <div
                 key={index}
-                className="text-center group border p-2 rounded-2xl shadow-lg shadow-white/20"
+                className="text-center group p-2 rounded-2xl shadow shadow-blue-400/20"
               >
                 <div className=" bg-gradient-to-r to-black/20 shadow shadow-sky-500/20 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform text-white">
                   {stat.icon}
@@ -216,7 +241,7 @@ const MainWebsite = () => {
           </p>
         </div>
       </footer>
-    </div>
+    </motion.div>
   );
 };
 
