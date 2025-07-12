@@ -10,13 +10,13 @@ const ProgressiveLoader = ({ codeLoading, className = "" }) => {
       text: "Thinking",
       icon: <Loader2 className="w-5 h-5 animate-spin" />,
       color: "text-blue-400",
-      duration: 5000,
+      duration: 6000,
     },
     {
       text: "Wait",
       icon: <Clock className="w-5 h-5 animate-pulse" />,
       color: "text-amber-400",
-      duration: 5000,
+      duration: 6000,
     },
     {
       text: "Almost done",
