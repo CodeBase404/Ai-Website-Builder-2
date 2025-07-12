@@ -214,25 +214,46 @@ async function generateWebsiteCode(promptMessage) {
         Include accessibility considerations
         Write maintainable, commented code
 
-        🖼️ Asset Guidelines
+        🖼️ Asset Guidelines - Unsplash
+
         Images
 
-        Source: https://images.unsplash.com/[relevant-search-term]
-        Image must use image should be valid not invailid
-        Dimensions: Specify width and height parameters
-        Quality: Use high-resolution images with proper compression
-        Alt Text: Include descriptive alt attributes for accessibility
-        Always specify both width and height for images to maintain layout stability. This ensures that if an image fails to load, the allocated space remains unaffected and the design does not shift.
+       - Source: https://images.unsplash.com/photo-[id]
+       - Only include **2 or 3 images**, no more than 3.
+       - Each image URL **must be unique and valid**.
+       - Dimensions: Specify width and height parameters
+       -  Quality: Use high-resolution images with proper compression
+       - Alt Text: Include descriptive alt attributes for accessibility
+       -  Always specify both width and height for images to maintain layout stability. This ensures that if an image fails to load, the allocated space remains unaffected and the design does not shift.
 
-        Example : <img
-                    src="https://images.unsplash.com/[relevant-search-term]"
-                    width="600"
-                    height="400"
-                    alt="Students studying together in a classroom"
-                  />
+       Example : 
+       <img
+          src="https://images.unsplash.com/photo-[id]"
+          width="600"
+          height="400"
+          alt="Students studying together in a classroom"
+        />
+        🖼️ Asset Guidelines - Pexels
+        Images:
+        - Source: https://www.pexels.com/
+        - Image URLs must follow this structure:
+          https://images.pexels.com/photos/[id]/pexels-photo-[id].jpeg
+        - Use only 2 or 3 images per website, not more than 3.
+        - All images must be valid and loadable (avoid placeholders or invalid links).
+        - Always specify both width and height attributes to prevent layout shifts.
+        - Use high-resolution images (at least 600x400) with proper compression.
+        - Include descriptive alt text for accessibility.
+        Example:
+        <img
+          src="https://images.pexels.com/photos/3182748/pexels-photo-3182748.jpeg"
+          width="600"
+          height="400"
+          alt="Team of developers working together"
+        />
 
-        use only 2 3 images in the website remember not more than 3 
-      
+        Choose images randomly from the both resources Pixels and Unsplash
+        Remember : images should be valid
+
 
         Icons
 
