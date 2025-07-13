@@ -114,7 +114,7 @@ function Sidebar({
     >
       {/* Header */}
       <div>
-        <div className="flex border-b border-gray-600 p-2 justify-between items-center mb-4">
+        <div className="flex border-b border-white/10 px-2 py-1.5 justify-between items-center mb-4">
           <NavLink to="/" className="flex items-center gap-2 text-[18px] font-bold text-gray-200 py-1">
             <img
               src={logo}
@@ -142,18 +142,18 @@ function Sidebar({
         >
           <SquarePen className="w-5 h-5" /> New Chat
         </button>
-        <div className="relative">
+        <div className="relative pb-2 border-b md:border-none border-white/15">
           <input
             type="text"
             placeholder="Search chats..."
-            className="w-full mt-3 px-3 py-2 pl-10 rounded-xl shadow shadow-gray-500/80 text-white placeholder-gray-400 focus:outline-none"
+            className="w-full mt-3 px-3 py-2 pl-10 rounded-xl border border-white/10 text-white placeholder-gray-400 focus:outline-none"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <Search className="absolute top-5.5 left-3 w-5 h-5 text-gray-400" />
         </div>
         {/* Chat List */}
-        <div className="flex-1 overflow-auto max-h-[73%] py-3 scroll-hidden space-y-1">
+        <div className="flex-1 overflow-auto max-h-[73%] py-2 scroll-hidden space-y-1">
           {chats.length > 0 ? (
             chats.filter((chat) => {
               const messageText =
@@ -169,7 +169,7 @@ function Sidebar({
                 .map((chat) => (
                   <div
                     key={chat._id}
-                    className="group flex items-center justify-between px-3 py-2 rounded-xl hover:bg-purple-500/20 text-gray-200 truncate"
+                    className="group flex items-center justify-between gap-1 text-sm border md:border-none border-white/5 md:gap-0.5 py-2 px-3 rounded-xl hover:bg-purple-500/20 text-gray-200 truncate"
                   >
                     <div
                       onClick={() => handleChatClick(chat._id)}
@@ -185,11 +185,11 @@ function Sidebar({
                     {/* 🗑️ Delete Button */}
                     <button
                       onClick={(e) => {
-                        e.stopPropagation(); // prevents triggering chat click
+                        e.stopPropagation(); 
                         handleDelete(chat._id);
                       }}
                       title="Delete Chat"
-                      className="text-red-500 p-1 hover:bg-white/10 rounded active:scale-95 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="text-red-500 p-1 bg-white/10 hover:bg-white/10 rounded active:scale-95 cursor-pointer md:opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <Trash2 size={15} />
                     </button>
@@ -209,7 +209,7 @@ function Sidebar({
       </div>
 
       {/* Footer */}
-      <div className="fixed bottom-0 w-50 pb-2 border-t border-gray-600">
+      <div className="fixed bottom-0 w-41 lg:w-51 pb-2 border-t border-gray-600">
         <div className="flex items-center gap-2 pl-2 cursor-pointer my-3">
           <img src={icon} alt="profile" className="rounded-full w-8 h-8" />
           <span className="text-gray-300 font-bold">

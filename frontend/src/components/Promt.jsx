@@ -49,8 +49,6 @@ function Promt({
     }
   };
 
-
-
   useEffect(() => {
     const loadChat = async () => {
       if (!paramChatId) {
@@ -137,7 +135,11 @@ function Promt({
         const { done, value } = await reader.read();
         if (done) break;
         finalText += decoder.decode(value);
-        setInput(finalText);
+        const cleaned = finalText
+          .replace(/^```(.*?)\n/, "")
+          .replace(/```$/, "");
+
+        setInput(cleaned);
       }
     } catch (err) {
       console.error("Enhance error:", err);
@@ -261,44 +263,43 @@ function Promt({
   };
 
   useEffect(() => {
-  const handleKeyDown = (e) => {
-    if (e.ctrlKey && e.key.toLowerCase() === "j") {
-      e.preventDefault();
-      if (!enhancedPrompt && input.trim()) {
-        handleEnhancePrompt(input);
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.key.toLowerCase() === "j") {
+        e.preventDefault();
+        if (!enhancedPrompt && input.trim()) {
+          handleEnhancePrompt(input);
+        }
       }
-    }
 
-    if (e.ctrlKey && e.key.toLowerCase() === "g") {
-      e.preventDefault();
-      setMode("game");
-    }
-
-    if (e.ctrlKey && e.key.toLowerCase() === "o") {
-      e.preventDefault();
-      setMode("website");
-    }
-
-    if (e.ctrlKey && e.key.toLowerCase() === "b") {
-      e.preventDefault();
-      setIsSidebarOpen(prev => ({
-        ...prev,
-        historyBar: !prev.historyBar,
-      }));
-    }
-
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      if (!loading) {
-        handleSendPrompt();
+      if (e.ctrlKey && e.key.toLowerCase() === "g") {
+        e.preventDefault();
+        setMode("game");
       }
-    }
-  };
 
-  window.addEventListener("keydown", handleKeyDown);
-  return () => window.removeEventListener("keydown", handleKeyDown);
-}, [input, enhancedPrompt, loading, setMode, setIsSidebarOpen]);
+      if (e.ctrlKey && e.key.toLowerCase() === "o") {
+        e.preventDefault();
+        setMode("website");
+      }
 
+      if (e.ctrlKey && e.key.toLowerCase() === "b") {
+        e.preventDefault();
+        setIsSidebarOpen((prev) => ({
+          ...prev,
+          historyBar: !prev.historyBar,
+        }));
+      }
+
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        if (!loading) {
+          handleSendPrompt();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [input, enhancedPrompt, loading, setMode, setIsSidebarOpen]);
 
   if (chatLoading)
     return (
@@ -408,16 +409,18 @@ function Promt({
                 ? "Enhancing prompt..."
                 : "Type your idea and we'll bring it to life"
             }
-            className={`flex-1 bg-transparent w-full text-white placeholder-white/70 ${enhancedPrompt && "font-semibold placeholder-white"} text-sm outline-none resize-none overflow-y-auto max-h-40 py-2 px-4`}
+            className={`flex-1 bg-transparent w-full text-white placeholder-white/70 ${
+              enhancedPrompt && "font-semibold placeholder-white"
+            } text-sm outline-none resize-none overflow-y-auto max-h-40 py-2 px-4`}
             onKeyDown={handleKeyDown}
           />
 
           <button
             onClick={handleSendPrompt}
-            disabled={loading || input.trim().length === 0}
+            disabled={loading || input.trim().length === 0 || enhancedPrompt}
             className={`absolute top-7 right-5 p-2 rounded-full text-white transition 
                 ${
-                  loading || input.trim().length === 0
+                  loading || input.trim().length === 0 || enhancedPrompt
                     ? "hidden"
                     : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
                 }`}
@@ -430,7 +433,12 @@ function Promt({
               onClick={() => handleEnhancePrompt(input)}
               className={`px-2.5 py-1.5 cursor-pointer rounded-lg text-[9px] sm:text-xs font-medium shadow transition bg-white/10`}
             >
-              {enhancedPrompt ? <span className="loading loading-ring loading-sm"></span>:"✨"} Enhance Prompt
+              {enhancedPrompt ? (
+                <span className="loading loading-ring loading-sm"></span>
+              ) : (
+                "✨"
+              )}{" "}
+              Enhance Prompt
             </button>
             <button
               onClick={() => setMode("game")}

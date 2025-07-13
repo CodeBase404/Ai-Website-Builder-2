@@ -95,14 +95,14 @@ const MainWebsite = () => {
             <div className="space-x-2">
               <NavLink
                 to="/chat"
-                className="btn btn-dash btn-info hover:text-white  hover:scale-105 transition-transform"
+                className="btn btn-dash btn-info text-xs hover:text-white  hover:scale-105 transition-transform"
               >
                 Ai Website Builder
               </NavLink>
               <span
                 onClick={handleLogout}
                 disabled={loading}
-                className={`btn btn-dash btn-error cursor-pointer  text-white transition-transform  ${
+                className={`btn btn-dash btn-error text-xs cursor-pointer  text-white transition-transform  ${
                   loading
                     ? "opacity-50 cursor-not-allowed"
                     : ""

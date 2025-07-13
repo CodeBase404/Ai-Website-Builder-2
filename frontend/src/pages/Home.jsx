@@ -90,9 +90,9 @@ function Home() {
           <div
             className={` ${
               isSidebarOpen.historyBar ? "hidden-visible" : ""
-            }  w-full border-b  border-gray-800 bg-transparent left-0 flex  justify-between py-1 md:p-1.5 px-4`}
+            }  w-full border-b  border-gray-800 bg-transparent left-0 flex  justify-between py-1 md:p-1 px-4`}
           >
-            <div className="flex gap-2">
+            <div className="flex gap-1">
               <div
                 className={`flex items-center gap-1.5 text-[18px] font-bold relative z-50 text-gray-200 py-1`}
               >
@@ -119,13 +119,13 @@ function Home() {
             <div className="flex items-center gap-2">
             <button
               onClick={() => setShowShortcutModal(true)}
-              className="shadow shadow-white/40 hidden px-3 py-2 text-sm font-semibold md:flex items-center gap-1 rounded-lg cursor-pointer z-2"
+              className="border border-white/25 btn btn-dash btn-secondary hidden px-3 py-2 text-xs font-semibold md:flex items-center gap-1 rounded-lg cursor-pointer z-2"
             >
              <Keyboard size={18} /> Shortcuts
             </button>
             <NavLink
               to="/"
-              className="shadow shadow-white px-3 py-2 font-semibold text-sm flex items-center gap-1 rounded-lg cursor-pointer z-2"
+              className="border border-white/25 btn btn-dash btn-error hover:text-white px-3 py-2 font-semibold text-xs flex items-center gap-1 rounded-lg cursor-pointer z-2"
             >
               <HomeIcon size={18}/> Home
             </NavLink>
