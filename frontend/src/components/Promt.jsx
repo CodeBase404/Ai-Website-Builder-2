@@ -26,11 +26,13 @@ function Promt({
   const { chatId: paramChatId } = useParams();
   const [chatId, setChatId] = useState(paramChatId || null);
   const [chatLoading, setChatLoading] = useState(false);
+  const [enhancedPrompt, setEnhancedPrompt] = useState("");
 
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      textareaRef.current.scrollTop = textareaRef.current.scrollHeight;
     }
   }, [input]);
 
@@ -46,6 +48,8 @@ function Promt({
       }
     }
   };
+
+
 
   useEffect(() => {
     const loadChat = async () => {
@@ -108,6 +112,41 @@ function Promt({
     loadChat();
   }, [paramChatId]);
 
+  const handleEnhancePrompt = async (userInput) => {
+    if (!userInput.trim()) return;
+
+    setEnhancedPrompt(true);
+    setInput(""); // optional: show "enhancing..." state
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/chat/promptEnhance`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ message: userInput }),
+        }
+      );
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let finalText = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        finalText += decoder.decode(value);
+        setInput(finalText);
+      }
+    } catch (err) {
+      console.error("Enhance error:", err);
+      setInput("⚠️ Failed to enhance prompt.");
+    } finally {
+      setEnhancedPrompt(false);
+    }
+  };
+
   const handleSendPrompt = async () => {
     const trimmedInput = input.trim();
     if (!trimmedInput) return;
@@ -161,7 +200,7 @@ function Promt({
           if (last.role === "model") {
             updated[updated.length - 1] = {
               ...last,
-              content: last.content + buffer, 
+              content: last.content + buffer,
             };
           }
 
@@ -220,6 +259,46 @@ function Promt({
       textareaRef.current?.focus();
     }
   };
+
+  useEffect(() => {
+  const handleKeyDown = (e) => {
+    if (e.ctrlKey && e.key.toLowerCase() === "j") {
+      e.preventDefault();
+      if (!enhancedPrompt && input.trim()) {
+        handleEnhancePrompt(input);
+      }
+    }
+
+    if (e.ctrlKey && e.key.toLowerCase() === "g") {
+      e.preventDefault();
+      setMode("game");
+    }
+
+    if (e.ctrlKey && e.key.toLowerCase() === "o") {
+      e.preventDefault();
+      setMode("website");
+    }
+
+    if (e.ctrlKey && e.key.toLowerCase() === "b") {
+      e.preventDefault();
+      setIsSidebarOpen(prev => ({
+        ...prev,
+        historyBar: !prev.historyBar,
+      }));
+    }
+
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (!loading) {
+        handleSendPrompt();
+      }
+    }
+  };
+
+  window.addEventListener("keydown", handleKeyDown);
+  return () => window.removeEventListener("keydown", handleKeyDown);
+}, [input, enhancedPrompt, loading, setMode, setIsSidebarOpen]);
+
 
   if (chatLoading)
     return (
@@ -315,39 +394,21 @@ function Promt({
         } ${paramChatId ? "fixed bottom-5 mr-1" : ""} w-[96%] md:w-[100%]`}
       >
         <div
-          className={`relative shadow shadow-purple-200  rounded-xl px-4 py-4`}
+          className={`relative shadow shadow-purple-200  rounded-xl px-4 py-2 md:py-4`}
         >
-          <div className="absolute -top-7 right-5 flex gap-2">
-            <button
-              onClick={() => setMode("game")}
-              className={`px-3 py-1 cursor-pointer rounded-t-lg text-sm font-medium shadow transition ${
-                mode === "game"
-                  ? "bg-white text-black"
-                  : "bg-white/10 text-white hover:bg-white/20"
-              }`}
-            >
-              🎮 Game
-            </button>
-            <button
-              onClick={() => setMode("website")}
-              className={`px-3 py-1 cursor-pointer rounded-t-lg text-sm font-medium shadow transition ${
-                mode === "website"
-                  ? "bg-white text-black"
-                  : "bg-white/10 text-white hover:bg-white/20"
-              }`}
-            >
-              🌐 Website
-            </button>
-          </div>
-
           <textarea
             type="text"
             ref={textareaRef}
             value={input}
             autoFocus
+            disabled={enhancedPrompt}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your idea and we'll bring it to life"
-            className="flex-1 bg-transparent w-full text-white placeholder-gray-500 text-sm outline-none resize-none overflow-y-auto max-h-40 p-4"
+            placeholder={
+              enhancedPrompt
+                ? "Enhancing prompt..."
+                : "Type your idea and we'll bring it to life"
+            }
+            className={`flex-1 bg-transparent w-full text-white placeholder-white/70 ${enhancedPrompt && "font-semibold placeholder-white"} text-sm outline-none resize-none overflow-y-auto max-h-40 py-2 px-4`}
             onKeyDown={handleKeyDown}
           />
 
@@ -363,6 +424,35 @@ function Promt({
           >
             <ArrowUp className="w-4 h-4 " />
           </button>
+
+          <div className="flex gap-2">
+            <button
+              onClick={() => handleEnhancePrompt(input)}
+              className={`px-2.5 py-1.5 cursor-pointer rounded-lg text-[9px] sm:text-xs font-medium shadow transition bg-white/10`}
+            >
+              {enhancedPrompt ? <span className="loading loading-ring loading-sm"></span>:"✨"} Enhance Prompt
+            </button>
+            <button
+              onClick={() => setMode("game")}
+              className={`px-2.5 py-1.5 cursor-pointer rounded-lg text-[9px] sm:text-xs font-medium shadow transition ${
+                mode === "game"
+                  ? "bg-white text-black"
+                  : "bg-white/10 text-white hover:bg-white/20"
+              }`}
+            >
+              🎮 Game
+            </button>
+            <button
+              onClick={() => setMode("website")}
+              className={`px-2.5 py-1.5 cursor-pointer rounded-lg text-[9px] sm:text-xs font-medium shadow transition ${
+                mode === "website"
+                  ? "bg-white text-black"
+                  : "bg-white/10 text-white hover:bg-white/20"
+              }`}
+            >
+              🌐 Website
+            </button>
+          </div>
         </div>
       </div>
     </div>

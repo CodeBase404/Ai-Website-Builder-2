@@ -62,6 +62,18 @@ const MainWebsite = () => {
     }
   };
 
+    useEffect(() => {
+      const handleKeyDown = (e) => {
+        if (e.ctrlKey && e.key.toLowerCase() === "y") {
+          e.preventDefault();
+          navigate("/chat");
+        }
+      };
+  
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }, []);
+
   return (
     <motion.div className="min-h-screen relative z-40 bg-transparent animate-fade-in">
       <motion.div

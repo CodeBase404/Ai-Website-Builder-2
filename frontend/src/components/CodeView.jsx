@@ -212,6 +212,50 @@ function CodeView({
     }
   };
 
+  useEffect(() => {
+  const handleKeyDown = (e) => {
+    if (e.ctrlKey && e.key.toLowerCase() === "m") {
+      e.preventDefault();
+      setTheme((prev) => !prev);
+    }
+
+    if (e.ctrlKey && e.key.toLowerCase() === "e") {
+      e.preventDefault();
+      handleDownloadAll();
+    }
+
+    if (e.ctrlKey && e.key.toLowerCase() === "d") {
+      e.preventDefault();
+      if (!deploying) handleDeploy();
+    }
+
+    if (e.ctrlKey && e.key === "1") {
+      e.preventDefault();
+      setActiveTab("code");
+    }
+
+    if (e.ctrlKey && e.key === "2") {
+      e.preventDefault();
+      setActiveTab("preview");
+    }
+
+    if (e.ctrlKey && e.key === "3") {
+      e.preventDefault();
+      setPreviewDevice("desktop");
+    }
+
+    if (e.ctrlKey && e.key === "4") {
+      e.preventDefault();
+      setPreviewDevice("mobile");
+    }
+  };
+
+  window.addEventListener("keydown", handleKeyDown);
+  return () => window.removeEventListener("keydown", handleKeyDown);
+}, [deploying]);
+
+  
+
   return (
     <div>
       <div className="flex items-center justify-between border-b border-white/10  p-2 pr-5 h-[7%]">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Promt from "../components/Promt";
-import { PanelTopOpen } from "lucide-react";
+import { HomeIcon, Keyboard, PanelTopOpen } from "lucide-react";
 import logo from "/genify1.webp";
 import CodeView from "../components/CodeView";
 import {
@@ -11,7 +11,8 @@ import {
   animate,
   easeInOut,
 } from "motion/react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
+import ShortcutModal from "../components/ShortcutModal";
 
 function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState({
@@ -25,6 +26,8 @@ function Home() {
   const [promt, setPromt] = useState([]);
   const [codeLoading, setCodeLoading] = useState(false);
   const [mode, setMode] = useState("website");
+  const [showShortcutModal, setShowShortcutModal] = useState(false);
+  const navigate = useNavigate();
 
   const Colors = ["#DD335C", "#ff5e57", "#e073c5", "#1E67C6", "#CE84CF"];
   const color = useMotionValue(Colors[0]);
@@ -40,6 +43,18 @@ function Home() {
 
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%,#020617 50%, ${color})`;
   const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.key.toLowerCase() === "h") {
+        e.preventDefault();
+        navigate("/");
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return (
     <motion.div
@@ -75,16 +90,15 @@ function Home() {
           <div
             className={` ${
               isSidebarOpen.historyBar ? "hidden-visible" : ""
-            }  w-full border-b  border-gray-800 bg-transparent left-0 flex  justify-between p-1.5 px-4`}
+            }  w-full border-b  border-gray-800 bg-transparent left-0 flex  justify-between py-1 md:p-1.5 px-4`}
           >
             <div className="flex gap-2">
-              <NavLink
-                to="/"
+              <div
                 className={`flex items-center gap-1.5 text-[18px] font-bold relative z-50 text-gray-200 py-1`}
               >
                 <img src={logo} alt="Webify Logo" className="h-7" />
                 Webify
-              </NavLink>
+              </div>
 
               <button
                 onClick={() =>
@@ -102,7 +116,20 @@ function Home() {
                 )}
               </button>
             </div>
-            <NavLink to="/" className="bg-gradient-to-r from-rose-500 via-white/10 shadow shadow-white px-3 py-1 rounded-lg cursor-pointer relative z-2">Home</NavLink>
+            <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowShortcutModal(true)}
+              className="shadow shadow-white/40 hidden px-3 py-2 text-sm font-semibold md:flex items-center gap-1 rounded-lg cursor-pointer z-2"
+            >
+             <Keyboard size={18} /> Shortcuts
+            </button>
+            <NavLink
+              to="/"
+              className="shadow shadow-white px-3 py-2 font-semibold text-sm flex items-center gap-1 rounded-lg cursor-pointer z-2"
+            >
+              <HomeIcon size={18}/> Home
+            </NavLink>
+            </div>
             <div
               onClick={() =>
                 setIsSidebarOpen((prev) => ({
@@ -163,6 +190,11 @@ function Home() {
             />
           </div>
         </div>
+        {showShortcutModal && (
+          <div className="absolute top-0 border h-[100%] w-full z-500">
+            <ShortcutModal onClose={() => setShowShortcutModal(false)} />
+          </div>
+        )}
       </div>
     </motion.div>
   );

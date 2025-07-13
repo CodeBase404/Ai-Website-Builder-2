@@ -6,6 +6,10 @@ import generateWebsiteCode from "../config/generateWebsiteCode.js";
 import geminiClassification from "../config/geminiClassification.js";
 import generateGameText from "../config/generateGameText.js";
 import generateWebsiteText from "../config/generateWebsiteText.js";
+import generatePrompt from "../config/generatePromptForWebsite.js";
+import generatePromptForGame from "../config/generatePromptForGame.js";
+import generatePromptWebsite from "../config/generatePromptForWebsite.js";
+import generatePromptForWebsite from "../config/generatePromptForWebsite.js";
 
 export const textGenerate = async (req, res) => {
   const { message } = req.body;
@@ -77,69 +81,6 @@ export const textGenerate = async (req, res) => {
   }
 };
 
-// export const codeGenerate = async (req, res) => {
-//   const { message } = req.body;
-//   const { chatId } = req.params;
-//   const userId = req.user._id;
-
-//   try {
-//     let chat = await Chat.findOne({ _id: chatId, userId });
-
-//     const MAX_HISTORY = 10;
-//     const promptMessage = [
-//       ...chat.messages.slice(-MAX_HISTORY),
-//       { role: "user", parts: [{ text: message }] },
-//     ];
-
-//     const filteredPrompt = promptMessage.filter(
-//       (item) => item.parts && item.parts.length > 0
-//     );
-
-//     const answer = await generateCode(filteredPrompt);
-//     const text = answer?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-
-//     let files = [];
-//     try {
-//       const cleaned = text
-//         .replace(/^```(?:json)?\s*/i, "")
-//         .replace(/```$/, "")
-//         .trim();
-
-//       const parsed = JSON.parse(cleaned);
-
-//       if (parsed?.files) {
-//         files = Object.entries(parsed.files).map(([path, { code }]) => ({
-//           path,
-//           content: code,
-//         }));
-//       }
-//     } catch (err) {
-//       console.warn("Could not parse files from response", err.message);
-//     }
-
-//     chat.messages.push({
-//       role: "model",
-//       parts: [],
-//       files,
-//     });
-
-//     await chat.save();
-
-//     res.status(200).json({
-//       success: true,
-//       files,
-//       message: "Response received and saved successfully.",
-//     });
-//   } catch (error) {
-//     console.error("Chat error:", error);
-//     if (!res.headersSent) {
-//       res.status(500).json({ success: false, error: "Something went wrong." });
-//     } else {
-//       res.end();
-//     }
-//   }
-// };
-
 export const codeGenerate = async (req, res) => {
   const { message } = req.body;
 
@@ -159,16 +100,13 @@ export const codeGenerate = async (req, res) => {
       (item) => item.parts && item.parts.length > 0
     );
 
-    // ✅ Set headers for streaming
     res.setHeader("Content-Type", "application/json; charset=utf-8");
     res.setHeader("Transfer-Encoding", "chunked");
 
     const classificationPrompt = `Classify this prompt as either "game" or "website". Only reply with a single word.\nPrompt: ${message}`;
     const classification = await geminiClassification(classificationPrompt);
     const type = classification.trim().toLowerCase();
-    console.log("type", type);
 
-    // Generate code
     const answer =
       type === "game"
         ? await generateGameCode(filteredPrompt)
@@ -233,6 +171,47 @@ export const codeGenerate = async (req, res) => {
     res.end();
   } catch (error) {
     console.error("Chat error:", error);
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, error: "Something went wrong." });
+    } else {
+      res.end();
+    }
+  }
+};
+
+export const enhanceUserPrompt = async (req, res) => {
+  const { message } = req.body;
+
+  if (!message || typeof message !== "string") {
+    return res
+      .status(400)
+      .json({ success: false, error: "Invalid prompt message." });
+  }
+
+  try {
+    res.setHeader("Content-Type", "text/plain; charset=utf-8");
+    res.setHeader("Transfer-Encoding", "chunked");
+    res.setHeader("Cache-Control", "no-cache");
+
+    const classificationPrompt = `Classify this prompt as either "game" or "website". Only reply with a single word.\nPrompt: ${message}`;
+    const classification = await geminiClassification(classificationPrompt);
+    const type = classification.trim().toLowerCase();
+
+    const answer =
+      type === "game" ? await generatePromptForGame(message) : await generatePromptForWebsite(message);
+    console.log(type);
+    
+    for await (const chunk of answer) {
+      const text = chunk?.text || "";
+      if (text) {
+        res.write(text);
+      }
+    }
+
+    res.end();
+  } catch (error) {
+    console.error("Prompt enhance error:", error);
+
     if (!res.headersSent) {
       res.status(500).json({ success: false, error: "Something went wrong." });
     } else {
