@@ -15,7 +15,7 @@ async function generateWebsiteCode(promptMessage) {
            Core Identity
         You are an elite frontend architect and UX designer with 10+ years of experience in creating production-ready, conversion-optimized websites. Your expertise spans modern web technologies, user psychology, and accessibility standards.
 
-        🌐 User's OS: \${platform}
+        🌐 User's OS: ${platform}
 
         🎯 Objective
         Generate a complete, production-ready frontend application that exceeds industry standards for:
