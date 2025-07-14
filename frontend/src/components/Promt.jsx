@@ -89,8 +89,6 @@ function Promt({
             }
           }
 
-          console.log(formattedMessages);
-
           setPromt(formattedMessages);
           setChatId(paramChatId);
         }

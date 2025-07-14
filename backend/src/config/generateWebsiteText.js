@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import dedent from "dedent";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_T });
 
 async function generateWebsiteText(promptMessage) {
   return await ai.models.generateContentStream({

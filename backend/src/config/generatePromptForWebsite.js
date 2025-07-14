@@ -88,14 +88,6 @@ Follow this exact structure for every enhancement:
 
 ### 🎨 **Design & UX Requirements:**
 
-#### **Visual Design**
-- **Color scheme**: [Industry-appropriate colors]
-- **Typography**: Modern, readable font hierarchy
-- **Spacing**: Consistent 8px grid system
-- **Imagery**: High-quality, relevant images from Unsplash
-- **Icons**: Lucide React, Heroicons, or Font Awesome
-- **Shadows**: Layered shadow system for depth
-
 #### **Interactive Elements**
 - **Hover effects** on buttons and cards
 - **Smooth scrolling** navigation
@@ -103,13 +95,6 @@ Follow this exact structure for every enhancement:
 - **Loading states** for forms and interactions
 - **Modal/popup** functionality where needed
 - **Mobile-friendly** touch interactions
-
-#### **Responsive Design**
-- **Mobile-first** approach
-- **Breakpoints**: 640px, 768px, 1024px, 1280px
-- **Flexible layouts** that adapt to all screen sizes
-- **Touch-friendly** button sizes (min 44px)
-- **Optimized images** for different screen densities
 
 ### ⚙️ **Technical Specifications:**
 
@@ -120,20 +105,11 @@ Follow this exact structure for every enhancement:
 - **No frameworks**: Pure HTML/CSS/JS implementation
 
 #### **Required Functionality**
-- **Form validation** with real-time feedback
 - **Smooth scroll navigation** between sections
 - **Mobile hamburger menu** with animations
 - **Image lazy loading** for performance
 - **Dark/light mode toggle** (optional but recommended)
 - **Search/filter functionality** (if applicable)
-
-#### **Performance & Accessibility**
-- **Semantic HTML** structure
-- **WCAG 2.1 AA** compliance
-- **Keyboard navigation** support
-- **Screen reader** compatibility
-- **Optimized images** with proper alt text
-- **Fast loading** with minimal dependencies
 
 ### 🖼️ **Content & Assets:**
 
@@ -176,14 +152,6 @@ Follow this exact structure for every enhancement:
 - **Optimized image sizes**
 - **Fast loading** on mobile networks
 - **Thumb-friendly** button placement
-
-### 🔍 **SEO & Performance:**
-- **Proper meta tags** and structured data
-- **Semantic HTML** structure
-- **Optimized images** with compression
-- **Minimal JavaScript** for fast loading
-- **Clean, valid code** structure
-
 ---
 
 ## 📋 **Industry-Specific Enhancement Examples**
@@ -230,45 +198,8 @@ Follow this exact structure for every enhancement:
 - Certification displays
 - Learning path visualization
 
-## 🎯 **Quality Assurance Checklist**
 
-### **Before Enhancement Delivery:**
-- ✅ All sections clearly defined
-- ✅ Industry-appropriate terminology used
-- ✅ Specific technical requirements included
-- ✅ Mobile-first approach emphasized
-- ✅ Accessibility considerations mentioned
-- ✅ Performance optimization specified
-- ✅ Realistic content requirements detailed
-
-### **Enhancement Success Criteria:**
-- **Clarity**: Every requirement is specific and actionable
-- **Completeness**: All necessary sections and features included
-- **Industry Relevance**: Tailored to the specific business type
-- **Technical Accuracy**: Proper tech stack and implementation details
-- **User Experience**: Focus on usability and engagement
-- **Professional Quality**: Production-ready specifications
-
-## 🔧 **Implementation Notes**
-
-### **When Enhancing User Prompts:**
-1. **Always maintain** the single-page website focus
-2. **Include industry-specific** sections and terminology
-3. **Specify exact** technical requirements
-4. **Provide realistic** content and asset guidelines
-5. **Emphasize** responsive design and accessibility
-6. **Include** performance and SEO considerations
-7. **Add** interactive elements and animations
-8. **Ensure** mobile optimization is prioritized
-
-### **Response Format:**
-- Start with the enhanced prompt immediately
-- Use clear section headers and bullet points
-- Include specific technical requirements
-- Provide industry-appropriate examples
-- End with implementation guidelines
-
-**Remember**: Transform every simple idea into a comprehensive, professional website specification that developers can implement immediately to create modern, engaging, and functional single-page websites.
+**Output must be a single comprehensive prompt in 20-30 lines ready to implement.**
       `,
     },
   });

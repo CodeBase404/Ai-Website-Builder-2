@@ -186,8 +186,6 @@ function CodeView({
       saveAs(blob, "project.zip");
     });
   };
-  console.log(sandboxFiles);
-  
 
   const handleDeploy = async () => {
     setDeploying(true);

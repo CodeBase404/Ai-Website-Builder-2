@@ -67,8 +67,19 @@ async function generateWebsiteCode(promptMessage) {
 
         Usage:
         <div class="xyz-in" xyz="fade up duration-10">
-          Animate Me
+        Animate Me
         </div>
+
+        add this in the head tag:
+        <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+
+        add this before the body end:
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+         <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      AOS.init({ duration: 1000 });
+    });
+  </script>
 
         ✅ VALIDATION LOOP:
         Before outputting, **validate each file**:
@@ -138,32 +149,23 @@ async function generateWebsiteCode(promptMessage) {
         Typed text animations
         Multiple CTA buttons with different styles
         Social proof indicators
-        Trust badges and certifications
         Hero slider with multiple slides
         Interactive elements (scroll indicators, mouse followers)
         
         4. Features/Services Showcase
         
         Interactive feature cards with flip animations
-        Tabbed content organization
         Filterable service categories
         Comparison tables
         Pricing tiers with toggle
         Feature comparison matrix
-        Interactive demos/previews
-        Progress bars for capabilities
-        Before/after sliders
         
         5. Advanced Statistics & Metrics
         
         Real-time counter animations
-        Interactive charts and graphs
         Progress indicators
         Achievement badges
         Performance metrics dashboard
-        Interactive infographics
-        Data visualization components
-        Timeline of achievements
         
         6. Social Proof & Testimonials
         
@@ -171,21 +173,11 @@ async function generateWebsiteCode(promptMessage) {
         Interactive testimonial carousel
         Review rating systems
         Client logo marquee
-        Case study previews
-        Success story timelines
-        Social media feed integration
-        Trust indicators and badges
         
         7. Portfolio/Gallery Section
         
         Masonry grid layout
         Filterable portfolio categories
-        Lightbox gallery with zoom
-        Project detail modals
-        Interactive project timelines
-        Skills showcase with progress bars
-        Award and recognition display
-        Client work categorization
         
         8. About Us & Team
         
@@ -194,61 +186,35 @@ async function generateWebsiteCode(promptMessage) {
         Mission/vision statements
         Office locations with maps
         Company culture showcase
-        Behind-the-scenes content
         Leadership profiles
-        Company values visualization
         
         9. Services Deep Dive
         
         Detailed service pages
         Process workflow diagrams
         Interactive service selectors
-        Custom quote calculators
-        Service comparison tools
-        FAQ accordions
-        Related services suggestions
         Service booking system
         
         10. Blog/News Section
         
         Featured article showcase
         Category-based filtering
-        Search functionality
-        Reading time indicators
-        Social sharing buttons
-        Related articles
-        Author profiles
-        Comment system preview
         
         11. Interactive Tools & Calculators
         
         ROI calculators
-        Price estimators
-        Interactive quizzes
         Assessment tools
-        Comparison generators
-        Configuration builders
         Interactive demos
         
         12. Contact & Communication Hub
         
         Multi-step contact forms
         Live chat integration
-        FAQ section with search
-        Support ticket system
-        Appointment booking
-        Location finder with maps
-        Multiple contact methods
         Social media integration
         
         13. Newsletter & Subscription
         
         Email subscription forms
-        Preference center
-        Content categories selection
-        Social media follow buttons
-        RSS feed options
-        Notification preferences
         Download lead magnets
         
         14. Footer Enhancement
@@ -259,165 +225,44 @@ async function generateWebsiteCode(promptMessage) {
         Newsletter signup
         Contact information
         Legal pages links
-        Sitemap access
-        Language/region selector
-        
-        15. Additional Premium Sections
-        
-        Pricing Tables: Interactive pricing with feature comparison
-        FAQ Section: Searchable, categorized frequently asked questions
-        Resources Hub: Downloads, guides, whitepapers
-        Events Calendar: Upcoming events, webinars, workshops
-        Press & Media: Media kit, press releases, news coverage
-        Careers: Job listings, company culture, application process
-        Partners: Partner logos, integration showcases
-        Security & Compliance: Certifications, security badges
-        API Documentation: For tech companies
-        Community Forum: User discussions, support
         
         💻 ADVANCED JAVASCRIPT FUNCTIONALITY (100+ Features)
         Core Interactive Systems
         1. Advanced Navigation Controller
         javascript// Requirements: 200+ lines
-        - Multi-level menu system
-        - Keyboard navigation support
-        - Mobile touch gestures
-        - Search integration
-        - Breadcrumb management
-        - Active state tracking
         - Smooth scrolling with offset
-        - Hash-based routing
-        - Menu state persistence
-        
-        2. Animation & Scroll Management
-        javascript// Requirements: 300+ lines
-        - Intersection Observer API
-        - GSAP timeline animations
-        - Parallax scrolling effects
-        - Scroll-triggered animations
-        - Smooth scrolling with easing
-        - Scroll progress indicators
-        - Infinite scroll implementation
-        - Lazy loading system
-        - Performance optimization
-        
-        3. Form Handling & Validation
-        javascript// Requirements: 250+ lines
-        - Real-time validation
-        - Multi-step form progression
-        - File upload handling
-        - Form data persistence
-        - Custom validation rules
-        - Error message management
-        - Success/failure states
-        - AJAX form submission
-        - Input formatting (phone, currency)
         
         4. Modal & Popup System
         javascript// Requirements: 200+ lines
         - Multiple modal types
-        - Keyboard navigation
         - Focus management
         - Backdrop click handling
-        - Size and position options
         - Animation transitions
         - Modal chaining
-        - Accessibility features
         
         5. Interactive Components
         javascript// Requirements: 300+ lines
         - Carousel/slider system
         - Accordion functionality
         - Tab system
-        - Tooltip management
         - Dropdown controls
         - Toggle switches
-        - Range sliders
         - Color pickers
         - Date pickers
         
-        6. Data Visualization & Charts
-        javascript// Requirements: 200+ lines
-        - Interactive charts (Chart.js)
-        - Real-time data updates
-        - Animation transitions
-        - Responsive sizing
-        - Export functionality
-        - Legend interactions
-        - Zoom and pan features
-        
-        7. E-commerce Features
-        javascript// Requirements: 250+ lines
-        - Shopping cart management
-        - Product filtering
-        - Wishlist functionality
-        - Price calculations
-        - Inventory tracking
-        - Checkout process
-        - Payment integration
-        - Order tracking
-        
-        8. Search & Filter System
-        javascript// Requirements: 200+ lines
-        - Real-time search
-        - Advanced filtering
-        - Sort functionality
-        - Search suggestions
-        - Result highlighting
-        - Faceted search
-        - Search history
-        - Filter persistence
         
         9. User Experience Enhancements
         javascript// Requirements: 300+ lines
         - Theme switching (light/dark)
-        - Language localization
         - User preferences
         - Accessibility features
         - Keyboard shortcuts
-        - Voice commands
-        - Gesture recognition
-        - Performance monitoring
-        
-        10. Advanced API Integration
-        javascript// Requirements: 200+ lines
-        - RESTful API handling
-        - Data caching system
-        - Error handling
-        - Retry mechanisms
-        - Rate limiting
-        - WebSocket connections
-        - Real-time updates
-        - Offline functionality
-        Performance & Optimization Features
-        
-        11. Lazy Loading System
-        javascript// Requirements: 150+ lines
-        - Image lazy loading
-        - Content lazy loading
-        - Progressive image loading
-        - Placeholder management
-        - Loading states
-        - Error handling
-        - Performance metrics
         
         12. Caching & Storage
         javascript// Requirements: 100+ lines
         - Local storage management
-        - Session storage
-        - Cache management
-        - Data compression
         - Storage quotas
         - Cleanup routines
-        
-        13. Analytics & Tracking
-        javascript// Requirements: 150+ lines
-        - Event tracking
-        - User behavior analysis
-        - Performance metrics
-        - Custom events
-        - Conversion tracking
-        - A/B testing support
         
         🎨 ENHANCED CSS REQUIREMENTS (1000+ Lines)
         Advanced Styling Features
@@ -439,16 +284,6 @@ async function generateWebsiteCode(promptMessage) {
         Container-based queries
         Touch-friendly interfaces
         
-        3. Advanced Visual Effects
-        
-        Glassmorphism effects
-        Neumorphism design
-        Complex gradients
-        Box shadows and filters
-        SVG animations
-        CSS transforms
-        Backdrop filters
-        
         4. Component Library
         
         Button variations (50+ styles)
@@ -463,8 +298,6 @@ async function generateWebsiteCode(promptMessage) {
         
         Complete theme system
         Smooth transitions
-        Color scheme management
-        User preference detection
         Theme persistence
         
         🔧 TECHNICAL SPECIFICATIONS
@@ -473,98 +306,10 @@ async function generateWebsiteCode(promptMessage) {
         
         ES6+ modern syntax
         Modular architecture
-        Error handling
         Performance optimization
         Accessibility features
-        Cross-browser compatibility
-        Memory management
-        Event delegation
         
         CSS (Target: 1000+ lines)
-        
-        BEM methodology
-        Scalable architecture
-        Performance optimization
-        Browser compatibility
-        Maintainable code structure
-        Component-based approach
-        
-        Browser & Device Support
-        
-        Chrome, Firefox, Safari, Edge
-        Mobile responsiveness
-        Touch device support
-        Screen reader compatibility
-        Keyboard navigation
-        High contrast support
-        
-        Performance Targets
-        
-        Page load time < 3 seconds
-        First contentful paint < 1.5 seconds
-        Time to interactive < 4 seconds
-        Lighthouse score > 90
-        Core Web Vitals optimization
-        
-        SEO & Accessibility
-        
-        Semantic HTML structure
-        ARIA labels and roles
-        Alt text for images
-        Proper heading hierarchy
-        Schema markup
-        Meta tags optimization
-        Sitemap generation
-        
-        🎯 IMPLEMENTATION PRIORITY
-        Phase 1: Core Structure (Required)
-        
-        Advanced navigation system
-        Hero section with animations
-        Features showcase
-        Contact forms
-        Footer with links
-        
-        Phase 2: Interactive Features (High Priority)
-        
-        Scroll animations
-        Modal system
-        Form validation
-        Carousel components
-        Theme switching
-        
-        Phase 3: Advanced Features (Medium Priority)
-        
-        Search functionality
-        Data visualization
-        E-commerce features
-        API integration
-        Analytics tracking
-        
-        Phase 4: Premium Features (Optional)
-        
-        Voice commands
-        Offline functionality
-        Advanced animations
-        Real-time features
-        AI integration
-        
-        📊 SUCCESS METRICS
-        Technical Metrics
-        
-        Code coverage > 80%
-        Performance score > 90
-        Accessibility score > 95
-        SEO score > 90
-        Mobile usability score > 95
-        
-        User Experience Metrics
-        
-        Bounce rate < 30%
-        Time on page > 2 minutes
-        Conversion rate > 5%
-        User satisfaction > 4.5/5
-        Page load abandonment < 10%
         
         This enhanced structure ensures your website will have extensive functionality with substantial code output, advanced features, and professional-grade implementation suitable for large-scale modern websites.
 
@@ -592,11 +337,6 @@ async function generateWebsiteCode(promptMessage) {
         - Source: https://www.pexels.com/
         - Image URLs must follow this structure:
           https://images.pexels.com/photos/[id]/pexels-photo-[id].jpeg
-        - Use only 2 or 3 images per website, not more than 3.
-        - All images must be valid and loadable (avoid placeholders or invalid links).
-        - Always specify both width and height attributes to prevent layout shifts.
-        - Use high-resolution images (at least 600x400) with proper compression.
-        - Include descriptive alt text for accessibility.
         Example:
         <img
           src="https://images.pexels.com/photos/3182748/pexels-photo-3182748.jpeg"
@@ -604,10 +344,6 @@ async function generateWebsiteCode(promptMessage) {
           height="400"
           alt="Team of developers working together"
         />
-
-        Choose images randomly from the both resources Pixels and Unsplash
-        Remember : images should be valid
-
 
         Icons
 
@@ -622,19 +358,6 @@ async function generateWebsiteCode(promptMessage) {
         Touch-friendly button sizes (min 44px)
         Readable text without zooming
         Simplified navigation patterns
-
-        Tablet Optimization
-
-        Adapt grid layouts for medium screens
-        Optimize image sizes and loading
-        Maintain touch interactions
-
-        Desktop Excellence
-
-        Utilize full screen real estate
-        Implement hover states and effects
-        Optimize for mouse interactions
-        Consider ultra-wide displays
 
         🔧 Performance & Accessibility
         Performance Optimization
@@ -661,7 +384,7 @@ async function generateWebsiteCode(promptMessage) {
         ❗ Output must be raw JSON only. No explanations.
 
         📤 Output Format
-        must and should return ONLY a valid JSON array with exactly 3 files:
+        must return ONLY a valid JSON array with exactly 3 files:
         [
           { "path": "/index.html", "content": "..." },
           { "path": "/styles.css", "content": "..." },
@@ -670,28 +393,6 @@ async function generateWebsiteCode(promptMessage) {
 
         File Requirements
         index.html
-
-        Complete HTML5 document
-        All required CDN links in head
-        Semantic structure with proper ARIA
-        Optimized meta tags for SEO
-        Structured data markup (JSON-LD)
-
-        styles.css
-
-        Custom CSS overrides for Tailwind
-        Complex animations and keyframes
-        Custom component styles
-        Responsive design utilities
-        CSS variables for theme consistency
-
-        index.js
-
-        Complete functionality implementation
-        Error handling and validation
-        Performance optimizations
-        Accessibility enhancements
-        Clean, documented code
 
         🚫 Prohibited Elements
         Do NOT Include
@@ -711,31 +412,6 @@ async function generateWebsiteCode(promptMessage) {
         ❌ Non-functional buttons or links
         ❌ Incomplete form validations
         ❌ Basic or outdated design patterns
-
-        🎯 Success Criteria
-        Technical Excellence
-
-        ✅ 100% functional JavaScript features
-        ✅ Responsive design across all devices
-        ✅ Fast loading and smooth animations
-        ✅ Accessibility compliance
-        ✅ Cross-browser compatibility
-
-        Design Excellence
-
-        ✅ Modern, professional appearance
-        ✅ Consistent design system
-        ✅ Effective use of color and typography
-        ✅ Intuitive user interface
-        ✅ Engaging interactive elements
-
-        Business Impact
-
-        ✅ Clear value proposition
-        ✅ Compelling call-to-actions
-        ✅ Professional credibility
-        ✅ Conversion optimization
-        ✅ Brand consistency
 
         🔄 Validation Process
         Before outputting, ensure:
@@ -758,12 +434,6 @@ async function generateWebsiteCode(promptMessage) {
 
         🏆 Excellence Indicators
         A successful output will demonstrate:
-
-        Visual Impact: Stops users from scrolling, creates "wow" moments
-        Functional Completeness: Every feature works as intended
-        Professional Quality: Indistinguishable from premium websites
-        User Experience: Intuitive, engaging, and accessible
-        Technical Sophistication: Modern code practices and optimizations
 
         Remember: This is not a demo or template—create a production-ready masterpiece that showcases the pinnacle of modern web development.
               `,
