@@ -92,7 +92,15 @@ function Home() {
               isSidebarOpen.historyBar ? "hidden-visible" : ""
             }  w-full border-b  border-gray-800 bg-transparent left-0 flex  justify-between py-1 md:p-1 px-4`}
           >
-            <div className="flex gap-1">
+            <div
+              onClick={() =>
+                setIsSidebarOpen((prev) => ({
+                  ...prev,
+                  historyBar: !prev.historyBar,
+                }))
+              }
+              className="flex gap-1"
+            >
               <div
                 className={`flex items-center gap-1.5 text-[18px] font-bold relative z-50 text-gray-200 py-1`}
               >
@@ -100,15 +108,7 @@ function Home() {
                 Webify
               </div>
 
-              <button
-                onClick={() =>
-                  setIsSidebarOpen((prev) => ({
-                    ...prev,
-                    historyBar: !prev.historyBar,
-                  }))
-                }
-                className="cursor-pointer rounded-xl active:scale-95  p-1.5"
-              >
+              <button className="cursor-pointer rounded-xl active:scale-95  p-1.5">
                 {isSidebarOpen.historyBar ? (
                   <PanelTopOpen className="w-6 h-6 rotate-90" />
                 ) : (
@@ -117,18 +117,18 @@ function Home() {
               </button>
             </div>
             <div className="flex items-center gap-2">
-            <button
-              onClick={() => setShowShortcutModal(true)}
-              className="border border-white/25 btn btn-dash btn-secondary hidden px-3 py-2 text-xs font-semibold md:flex items-center gap-1 rounded-lg cursor-pointer z-2"
-            >
-             <Keyboard size={18} /> Shortcuts
-            </button>
-            <NavLink
-              to="/"
-              className="border border-white/25 btn btn-dash btn-error hover:text-white px-3 py-2 font-semibold text-xs flex items-center gap-1 rounded-lg cursor-pointer z-2"
-            >
-              <HomeIcon size={18}/> Home
-            </NavLink>
+              <button
+                onClick={() => setShowShortcutModal(true)}
+                className="border border-white/25 btn btn-dash btn-secondary hidden px-3 py-2 text-xs font-semibold md:flex items-center gap-1 rounded-lg cursor-pointer z-2"
+              >
+                <Keyboard size={18} /> Shortcuts
+              </button>
+              <NavLink
+                to="/"
+                className="border border-white/25 btn btn-dash btn-error hover:text-white px-3 py-2 font-semibold text-xs flex items-center gap-1 rounded-lg cursor-pointer z-2"
+              >
+                <HomeIcon size={18} /> Home
+              </NavLink>
             </div>
             <div
               onClick={() =>
