@@ -23,16 +23,17 @@ async function generateGameCode(promptMessage) {
          Must include these two Default files :
 
         "main.jsx": 
-        import React from 'react'
-        import ReactDOM from 'react-dom/client'
-        import App from './App.js'
-        import './styles.css'
+       import React, { StrictMode } from "react";
+       import { createRoot } from "react-dom/client";
+       import "./styles.css";
+       import App from './App.js'
             
-        ReactDOM.createRoot(document.getElementById('root')).render(
-          <React.StrictMode>
-            <App />
-          </React.StrictMode>
-        );
+       const root = createRoot(document.getElementById("root"));
+        root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
 
         "index.html": 
         <!DOCTYPE html>
@@ -59,7 +60,8 @@ async function generateGameCode(promptMessage) {
             {
               "rewrites": [
                 { "source": "/(.*)", "destination": "/index.html" }
-              ]
+              ],
+              "outputDirectory": "dist"
             }
 
         "/package.json":
@@ -110,17 +112,20 @@ async function generateGameCode(promptMessage) {
         import react from '@vitejs/plugin-react';
             
         export default defineConfig({
-          plugins: [react()],
+          plugins: [react({
+      include: /\.(js|jsx)$/,
+    })],
           optimizeDeps: {
             esbuildOptions: {
               loader: {
                 '.js': 'jsx',
+                '.jsx': 'jsx', 
               },
             },
           },
           esbuild: {
             loader: 'jsx',
-            include: /.js/,
+            include: /\.(js|jsx)$/,
             exclude: [],
           },
         });

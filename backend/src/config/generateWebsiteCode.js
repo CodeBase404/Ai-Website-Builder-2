@@ -85,23 +85,12 @@ async function generateWebsiteCode(promptMessage) {
           { "path": "/index.js", "content": "..." }
         ]
 
-       Must include these two Default files :
+       Must include this Default files :
         1. "/vercel.json": 
             {
                "rewrites": [
                  { "source": "/(.*)", "destination": "/index.html" }
                ]
-             }
-
-        2. "/package.json": 
-            {
-                "scripts": {
-                 "dev": "vite",
-                 "build": "vite build",
-                 "preview": "vite preview"
-               },
-                "dependencies": {},
-               "devDependencies": {}
              }
 
         📁 FILE STRUCTURE:

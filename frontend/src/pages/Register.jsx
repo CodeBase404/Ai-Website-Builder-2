@@ -209,9 +209,7 @@ function Register() {
 
         <button
           type="submit"
-          disabled={loading}
-          className={`btn btn-soft btn-primary text-[17px] rounded-md p-6 transition 
-          ${loading ? "opacity-50 border border-white/10 cursor-not-allowed" : ""}`}
+          className={`btn btn-soft btn-primary text-[17px] rounded-md p-6 transition`}
         >
           {loading ? "Registering..." : "Register"}
         </button>

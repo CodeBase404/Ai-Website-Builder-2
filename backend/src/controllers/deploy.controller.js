@@ -1,33 +1,4 @@
-// import path from "path";
-// import os from "os";
-// import fs from "fs-extra";
 import fetch from "node-fetch";
-// import { saveFilesToDisk } from "../utils/saveFilesToDisk.js";
-// import { buildProject } from "../utils/buildVite.js";
-// import { zipDistFolder } from "../utils/zipDistFolder.js";
-
-// export const deployViteProject = async (req, res) => {
-//   const { files } = req.body;
-
-//   if (!files || !Array.isArray(files)) {
-//     return res.status(400).json({ success: false, error: "No files provided" });
-//   }
-
-//   const tempProjectDir = path.join(os.tmpdir(), `vite-project-${Date.now()}`);
-//   const distPath = path.join(tempProjectDir, "dist");
-//   const zipPath = path.join(os.tmpdir(), `vite-project-${Date.now()}.zip`);
-
-//   try {
-//     await saveFilesToDisk(files, tempProjectDir);
-//     await buildProject(tempProjectDir);
-//     await zipDistFolder(distPath, zipPath);
-
-//     res.download(zipPath); // or deploy to Netlify if needed
-//   } catch (err) {
-//     console.error("Build error:", err);
-//     res.status(500).json({ success: false, error: err.message });
-//   }
-// };
 
 export const deployProject = async (req, res) => {
   const { files } = req.body;
@@ -51,7 +22,7 @@ export const deployProject = async (req, res) => {
       body: JSON.stringify({
         name: "genify-project",
         files: vercelFiles,
-        target: "production", // ✅ important to define
+         target: "production",
         projectSettings: {
           framework: null,
         },
