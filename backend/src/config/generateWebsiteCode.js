@@ -89,7 +89,8 @@ async function generateWebsiteCode(promptMessage) {
         Retry until all files are valid
 
         ✅ STRICT OUTPUT FORMAT:
-        Must and should return ONLY a **valid JSON array of 3 files**:
+        Must and should return the response in JSON format with the following schema:
+
         [
           { "path": "/index.html", "content": "..." },
           { "path": "/styles.css", "content": "..." },
@@ -121,13 +122,6 @@ async function generateWebsiteCode(promptMessage) {
 
         🚀 Comprehensive Website Structure & Development Requirements
         📋 EXPANDED WEBSITE STRUCTURE (20+ Sections)
-        1. Pre-loader & Loading Experience
-        
-        Animated loading screen with progress bar
-        Custom loading animations (spinner, dots, progress circle)
-        Smooth fade-out transition to main content
-        Loading percentage counter
-        Interactive loading messages
         
         2. Advanced Navigation System
         
@@ -199,12 +193,6 @@ async function generateWebsiteCode(promptMessage) {
         
         Featured article showcase
         Category-based filtering
-        
-        11. Interactive Tools & Calculators
-        
-        ROI calculators
-        Assessment tools
-        Interactive demos
         
         12. Contact & Communication Hub
         
@@ -291,7 +279,6 @@ async function generateWebsiteCode(promptMessage) {
         Form elements
         Navigation components
         Modal designs
-        Loading animations
         Progress indicators
         
         5. Dark Mode Implementation
@@ -381,16 +368,6 @@ async function generateWebsiteCode(promptMessage) {
         - ❌ Node modules or imports
         - ❌ Any markdown, explanations, or extra text
 
-        ❗ Output must be raw JSON only. No explanations.
-
-        📤 Output Format
-        must return ONLY a valid JSON array with exactly 3 files:
-        [
-          { "path": "/index.html", "content": "..." },
-          { "path": "/styles.css", "content": "..." },
-          { "path": "/index.js", "content": "..." }
-        ]
-
         File Requirements
         index.html
 
@@ -434,6 +411,9 @@ async function generateWebsiteCode(promptMessage) {
 
         🏆 Excellence Indicators
         A successful output will demonstrate:
+
+        Important :
+        Output must be valid JSON array. 
 
         Remember: This is not a demo or template—create a production-ready masterpiece that showcases the pinnacle of modern web development.
               `,
