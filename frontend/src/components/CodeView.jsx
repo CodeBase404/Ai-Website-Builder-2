@@ -8,6 +8,7 @@ import {
 import {
   Code,
   Eye,
+  File,
   FolderDown,
   Loader2,
   Moon,
@@ -38,14 +39,136 @@ function CodeView({
   const [istheme, setTheme] = useState(true);
   const [previewDevice, setPreviewDevice] = useState("desktop");
 
+  // const handleSendPrompt = async () => {
+  //   if (!prompt) return;
+
+  //   setLoading(true);
+  //   setCodeLoading(true);
+
+  //   const controller = new AbortController();
+  //   const signal = controller.signal;
+
+  //   try {
+  //     const response = await fetch(
+  //       `${import.meta.env.VITE_BACKEND_URL}/chat/code/${chatId}`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         credentials: "include",
+  //         body: JSON.stringify({ message: prompt }),
+  //         signal,
+  //       }
+  //     );
+
+  //     setCodeLoading(false);
+  //     if (!response.ok || !response.body) {
+  //       throw new Error("Streaming failed.");
+  //     }
+
+  //     const reader = response.body.getReader();
+  //     const decoder = new TextDecoder("utf-8");
+  //     let buffer = "";
+
+  //     while (true) {
+  //       const { value, done } = await reader.read();
+  //       if (done) break;
+
+  //       buffer += decoder.decode(value, { stream: true });
+
+  //       let boundary = buffer.lastIndexOf("\n");
+
+  //       if (boundary !== -1) {
+  //         const fullLines = buffer.slice(0, boundary).split("\n");
+  //         buffer = buffer.slice(boundary + 1); // save incomplete line
+
+  //         for (const line of fullLines) {
+  //           if (!line.trim()) continue;
+
+  //           try {
+  //             const parsed = JSON.parse(line); // { type: 'file', value: { path, content } }
+
+  //             if (parsed.type === "file") {
+  //               const { path, content } = parsed.value;
+
+  //               // 📁 Add progress msg
+  //               setPromt((prev) => {
+  //                 const last = prev[prev.length - 1];
+
+  //                 return [
+  //                   ...prev.slice(0, -1),
+  //                   {
+  //                     ...last,
+  //                     role: "model",
+  //                     content: last.content + `\n\n📁 Generating ${path}...`,
+  //                     temp: true,
+  //                   },
+  //                 ];
+  //               });
+
+  //               const isPackageJson = path === "/package.json";
+
+  //               if (!isPackageJson) {
+  //                 let streamedContent = "";
+  //                 for (let i = 0; i < content.length; i += 10) {
+  //                   streamedContent += content.slice(i, i + 10);
+  //                   setSandboxFiles((prev) => ({
+  //                     ...prev,
+  //                     [path]: { code: streamedContent },
+  //                   }));
+  //                   await new Promise((r) => setTimeout(r, 25));
+  //                 }
+  //               } else {
+  //                 setSandboxFiles((prev) => ({
+  //                   ...prev,
+  //                   [path]: { code: content },
+  //                 }));
+  //               }
+
+  //               setPromt((prev) => [
+  //                 ...prev.slice(0, -1),
+  //                 {
+  //                   ...prev[prev.length - 1],
+  //                   content:
+  //                     prev[prev.length - 1].content + `\n✅ ${path}`,
+  //                 },
+  //               ]);
+  //             }
+  //           } catch (e) {
+  //             console.warn("Invalid JSON line:", line);
+  //             continue;
+  //           }
+  //         }
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.error("Streaming Error:", err);
+  //     setPromt((prev) => {
+  //       const last = prev[prev.length - 1];
+  //       const withoutTemp =
+  //         last?.temp && last.content === "🧠 Generating code, please wait..."
+  //           ? prev.slice(0, -1)
+  //           : prev;
+
+  //       return [
+  //         ...withoutTemp,
+  //         {
+  //           role: "model",
+  //           content: "❌ Code generation failed.",
+  //         },
+  //       ];
+  //     });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleSendPrompt = async () => {
     if (!prompt) return;
 
     setLoading(true);
     setCodeLoading(true);
-
-    const controller = new AbortController();
-    const signal = controller.signal;
 
     try {
       const response = await fetch(
@@ -57,107 +180,38 @@ function CodeView({
           },
           credentials: "include",
           body: JSON.stringify({ message: prompt }),
-          signal,
         }
       );
 
       setCodeLoading(false);
-      if (!response.ok || !response.body) {
-        throw new Error("Streaming failed.");
+
+      if (!response.ok) {
+        throw new Error("Failed to generate code.");
       }
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
-      let buffer = "";
+      const data = await response.json();
 
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-
-        let boundary = buffer.lastIndexOf("\n");
-
-        if (boundary !== -1) {
-          const fullLines = buffer.slice(0, boundary).split("\n");
-          buffer = buffer.slice(boundary + 1); // save incomplete line
-
-          for (const line of fullLines) {
-            if (!line.trim()) continue;
-
-            try {
-              const parsed = JSON.parse(line); // { type: 'file', value: { path, content } }
-
-              if (parsed.type === "file") {
-                const { path, content } = parsed.value;
-
-                // 📁 Add progress msg
-                setPromt((prev) => {
-                  const last = prev[prev.length - 1];
-
-                  return [
-                    ...prev.slice(0, -1),
-                    {
-                      ...last,
-                      role: "model",
-                      content: last.content + `\n\n📁 Generating ${path}...`,
-                      temp: true,
-                    },
-                  ];
-                });
-
-                const isPackageJson = path === "/package.json";
-
-                if (!isPackageJson) {
-                  let streamedContent = "";
-                  for (let i = 0; i < content.length; i += 10) {
-                    streamedContent += content.slice(i, i + 10);
-                    setSandboxFiles((prev) => ({
-                      ...prev,
-                      [path]: { code: streamedContent },
-                    }));
-                    await new Promise((r) => setTimeout(r, 25));
-                  }
-                } else {
-                  setSandboxFiles((prev) => ({
-                    ...prev,
-                    [path]: { code: content },
-                  }));
-                }
-
-                setPromt((prev) => [
-                  ...prev.slice(0, -1),
-                  {
-                    ...prev[prev.length - 1],
-                    content:
-                      prev[prev.length - 1].content + `\n✅ ${path}`,
-                  },
-                ]);
-              }
-            } catch (e) {
-              console.warn("Invalid JSON line:", line);
-              continue;
-            }
-          }
-        }
+      if (!data.success || !data.files) {
+        throw new Error("Invalid response format.");
       }
+
+      const allFiles = {};
+      for (const { path, content } of data.files) {
+        allFiles[path] = { code: content };
+      }
+      setSandboxFiles(allFiles);
+
+      toast.success(`✅ ${data.files.length} files generated successfully!`);
+      // Update prompt content with success message
+      setPromt((prev) => [
+        ...prev,
+        {
+          role: "model",
+          content: `✅ Generated ${data.files.length} files.`,
+        },
+      ]);
     } catch (err) {
-      console.error("Streaming Error:", err);
-      setPromt((prev) => {
-        const last = prev[prev.length - 1];
-        const withoutTemp =
-          last?.temp && last.content === "🧠 Generating code, please wait..."
-            ? prev.slice(0, -1)
-            : prev;
-
-        return [
-          ...withoutTemp,
-          {
-            role: "model",
-            content: "❌ Code generation failed.",
-          },
-        ];
-      });
+      console.error("Generation Error:", err);
     } finally {
       setLoading(false);
     }
@@ -213,48 +267,46 @@ function CodeView({
   };
 
   useEffect(() => {
-  const handleKeyDown = (e) => {
-    if (e.ctrlKey && e.key.toLowerCase() === "m") {
-      e.preventDefault();
-      setTheme((prev) => !prev);
-    }
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.key.toLowerCase() === "m") {
+        e.preventDefault();
+        setTheme((prev) => !prev);
+      }
 
-    if (e.ctrlKey && e.key.toLowerCase() === "e") {
-      e.preventDefault();
-      handleDownloadAll();
-    }
+      if (e.ctrlKey && e.key.toLowerCase() === "e") {
+        e.preventDefault();
+        handleDownloadAll();
+      }
 
-    if (e.ctrlKey && e.key.toLowerCase() === "d") {
-      e.preventDefault();
-      if (!deploying) handleDeploy();
-    }
+      if (e.ctrlKey && e.key.toLowerCase() === "d") {
+        e.preventDefault();
+        if (!deploying) handleDeploy();
+      }
 
-    if (e.ctrlKey && e.key === "1") {
-      e.preventDefault();
-      setActiveTab("code");
-    }
+      if (e.ctrlKey && e.key === "1") {
+        e.preventDefault();
+        setActiveTab("code");
+      }
 
-    if (e.ctrlKey && e.key === "2") {
-      e.preventDefault();
-      setActiveTab("preview");
-    }
+      if (e.ctrlKey && e.key === "2") {
+        e.preventDefault();
+        setActiveTab("preview");
+      }
 
-    if (e.ctrlKey && e.key === "3") {
-      e.preventDefault();
-      setPreviewDevice("desktop");
-    }
+      if (e.ctrlKey && e.key === "3") {
+        e.preventDefault();
+        setPreviewDevice("desktop");
+      }
 
-    if (e.ctrlKey && e.key === "4") {
-      e.preventDefault();
-      setPreviewDevice("mobile");
-    }
-  };
+      if (e.ctrlKey && e.key === "4") {
+        e.preventDefault();
+        setPreviewDevice("mobile");
+      }
+    };
 
-  window.addEventListener("keydown", handleKeyDown);
-  return () => window.removeEventListener("keydown", handleKeyDown);
-}, [deploying]);
-
-  
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [deploying]);
 
   return (
     <div>
@@ -340,7 +392,7 @@ function CodeView({
           showConsoleButton: true,
           externalResources: ["https://cdn.tailwindcss.com"],
         }}
-         customSetup={{
+        customSetup={{
           dependencies: {
             ...LookUp?.Dependencies,
           },
@@ -348,19 +400,28 @@ function CodeView({
       >
         <SandpackSync activeTab={activeTab} />
 
-        <SandpackLayout className="rounded-b-2xl!">
-          {activeTab === "code" && (
-            <>
-              <SandpackFileExplorer className="h-[22vh]! md:h-[83.2vh]! lg:h-[87vh]!" />
-              <SandpackCodeEditor
-                showLineNumbers
-                wrapContent
-                showTabs={false}
-                closableTabs={false}
-                className="h-[61.5vh]! md:h-[83.2vh]! lg:h-[87vh]!"
-              />
-            </>
-          )}
+        <SandpackLayout className="rounded-b-2xl! h-[61.5vh]! md:h-[83.2vh]! lg:h-[87vh]!">
+          {activeTab === "code" &&
+            (loading ? (
+              <div className="p-4 text-green-500 h-full w-full flex flex-col gap-3 items-center justify-center text-xl animate-pulse">
+                <File size={50} />
+                <div>
+                  <span className="loading loading-spinner text-green-500"></span>{" "}
+                  Your preview will appear here
+                </div>
+              </div>
+            ) : (
+              <>
+                <SandpackFileExplorer className="h-[22vh]! md:h-[83.2vh]! lg:h-[87vh]!" />
+                <SandpackCodeEditor
+                  showLineNumbers
+                  wrapContent
+                  showTabs={false}
+                  closableTabs={false}
+                  className="h-[61.5vh]! md:h-[83.2vh]! lg:h-[87vh]!"
+                />
+              </>
+            ))}
 
           {activeTab === "preview" && (
             <div className="relative w-full h-[83.2vh] lg:h-[87.2vh]">

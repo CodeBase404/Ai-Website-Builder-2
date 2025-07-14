@@ -81,6 +81,104 @@ export const textGenerate = async (req, res) => {
   }
 };
 
+// export const codeGenerate = async (req, res) => {
+//   const { message } = req.body;
+
+//   const { chatId } = req.params;
+//   const userId = req.user._id;
+
+//   try {
+//     const chat = await Chat.findOne({ _id: chatId, userId });
+
+//     const MAX_HISTORY = 10;
+//     const promptMessage = [
+//       ...chat.messages.slice(-MAX_HISTORY),
+//       { role: "user", parts: [{ text: message }] },
+//     ];
+
+//     const filteredPrompt = promptMessage.filter(
+//       (item) => item.parts && item.parts.length > 0
+//     );
+
+//     res.setHeader("Content-Type", "application/json; charset=utf-8");
+//     res.setHeader("Transfer-Encoding", "chunked");
+
+//     const classificationPrompt = `Classify this prompt as either "game" or "website". Only reply with a single word.\nPrompt: ${message}`;
+//     const classification = await geminiClassification(classificationPrompt);
+//     const type = classification.trim().toLowerCase();
+
+//     const answer =
+//       type === "game"
+//         ? await generateGameCode(filteredPrompt)
+//         : await generateWebsiteCode(filteredPrompt);
+
+//     const text = answer?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+
+//     let files = [];
+//     try {
+//       const cleaned = text
+//         .replace(/^```(?:json)?\s*/i, "")
+//         .replace(/```$/, "")
+//         .trim();
+
+//       // ⛔ guard against invalid JSON
+//       if (!cleaned.startsWith("[") && !cleaned.startsWith("{")) {
+//         throw new Error("Response is not valid JSON");
+//       }
+
+//       const parsed = JSON.parse(cleaned);
+
+//       // ✅ handle array format
+//       if (Array.isArray(parsed)) {
+//         files = parsed.map(({ path, content }) => ({ path, content }));
+//       }
+//       // ✅ handle legacy "files" object format (if used accidentally)
+//       else if (parsed?.files) {
+//         files = Object.entries(parsed.files).map(([path, { code }]) => ({
+//           path,
+//           content: code,
+//         }));
+//       }
+//       for (const file of files) {
+//         const streamChunk = JSON.stringify({
+//           type: "file",
+//           value: file,
+//         });
+
+//         res.write(streamChunk + "\n"); // newline-delimited chunks
+
+//         // Optional: Simulate delay to observe frontend rendering
+//         await new Promise((r) => setTimeout(r, 100));
+//       }
+//     } catch (err) {
+//       console.warn("Could not parse files from response", err.message);
+//       return res.status(500).json({
+//         success: false,
+//         error: "Invalid response format from AI. Expected JSON array of files.",
+//       });
+//     }
+
+//     // Save chat message
+//     chat.messages.push({
+//       role: "model",
+//       parts: [],
+//       files,
+//     });
+
+//     await chat.save();
+
+//     // ✅ End streaming
+//     res.end();
+//   } catch (error) {
+//     console.error("Chat error:", error);
+//     if (!res.headersSent) {
+//       res.status(500).json({ success: false, error: "Something went wrong." });
+//     } else {
+//       res.end();
+//     }
+//   }
+// };
+
 export const codeGenerate = async (req, res) => {
   const { message } = req.body;
 
@@ -139,17 +237,6 @@ export const codeGenerate = async (req, res) => {
           content: code,
         }));
       }
-      for (const file of files) {
-        const streamChunk = JSON.stringify({
-          type: "file",
-          value: file,
-        });
-
-        res.write(streamChunk + "\n"); // newline-delimited chunks
-
-        // Optional: Simulate delay to observe frontend rendering
-        await new Promise((r) => setTimeout(r, 100));
-      }
     } catch (err) {
       console.warn("Could not parse files from response", err.message);
       return res.status(500).json({
@@ -167,8 +254,7 @@ export const codeGenerate = async (req, res) => {
 
     await chat.save();
 
-    // ✅ End streaming
-    res.end();
+    res.status(200).json({ success: true, files });
   } catch (error) {
     console.error("Chat error:", error);
     if (!res.headersSent) {
