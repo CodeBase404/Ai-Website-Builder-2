@@ -123,9 +123,9 @@ async function generateWebsiteCode(promptMessage) {
         🚀 Comprehensive Website Structure & Development Requirements
         📋 EXPANDED WEBSITE STRUCTURE (20+ Sections)
         
-        2. Advanced Navigation System
+        1. Advanced Navigation System
         
-        Multi-level dropdown menus
+       2.  Multi-level dropdown menus
         Mega menu with categories and featured content
         Breadcrumb navigation
         Search functionality within navigation
